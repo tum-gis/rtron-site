@@ -1,0 +1,32 @@
+# Getting Started
+
+## Installation
+
+Ensure that you have at least Java 11 installed:
+
+```bash
+java --version
+```
+
+Download the latest r:trån executable from the [releases section](https://github.com/tum-gis/rtron/releases/latest) and execute it:
+
+```bash
+java -jar rtron-*.jar --help
+```
+
+## Quick Start
+
+Copy your OpenDRIVE files into a directory named `input-opendrive`.
+A list of publicly available datasets can be found at [awesome-openx](https://github.com/b-schwab/awesome-openx#datasets).
+
+Validate your OpenDRIVE files by running:
+
+```bash
+java -jar rtron-*.jar validate-opendrive ./input-opendrive ./output-reports
+```
+
+Convert your OpenDRIVE files to CityGML by running:
+
+```bash
+java -jar rtron-*.jar opendrive-to-citygml ./input-opendrive ./output-citygml
+```

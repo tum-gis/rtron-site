@@ -1,0 +1,45 @@
+import RtronLogo from "../components/logos/rtron";
+
+{
+// wrapped with {} to mark it as javascript so mdx will not put it under a p tag
+}
+
+<div className="grid place-items-center pt-5">
+    <RtronLogo height={200}/>
+</div>
+
+<div className="mx-auto max-w-full w-[880px] text-center px-4 my-10">
+  {
+    <p className="text-lg mb-2 text-gray-600 md:!text-2xl">
+      Processing Library for Road Space Models
+    </p>
+  }
+</div>
+
+R:trån is an extensible toolkit for processing road space models.
+It currently supports the validation of [ASAM OpenDRIVE](https://www.asam.net/standards/detail/opendrive/) road networks and the conversion to semantic 3D city models in [OGC CityGML](https://www.ogc.org/standards/citygml).
+
+<div className="mt-16 mb-20 text-center">
+  [Get Started](/docs/getting-started) · [Examples](/examples) · [Blog](/blog) · [GitHub Repository](https://github.com/tum-gis/rtron) · [Raise Issue](https://github.com/tum-gis/rtron/issues)
+</div>
+
+## Overview
+
+Download the prebuilt JAR executable from the [releases section](https://github.com/tum-gis/rtron/releases/latest) and make sure that you have at least a JVM 11.
+Run r:trån to ...
+
+```bash
+# … validate OpenDRIVE datasets
+java -jar rtron-*.jar validate-opendrive ./input-opendrive ./output-reports
+
+# … transform OpenDRIVE datasets to CityGML
+java -jar rtron-*.jar opendrive-to-citygml ./input-opendrive ./output-citygml
+```
+
+R:trån recursively iterates over your OpenDRIVE input datasets and creates the same directory structure for the output folder.
+
+## Features
+
+- Reading and writing of [ASAM OpenDRIVE](https://www.asam.net/standards/detail/opendrive/) files
+- OpenDRIVE validation: schema compliance and specification rules
+- Conversion of OpenDRIVE road networks to [OGC CityGML](https://www.ogc.org/standards/citygml) version 2.0 and 3.0
