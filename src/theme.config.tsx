@@ -12,7 +12,7 @@ const config: DocsThemeConfig = {
         link: "https://discord.gg/7w2G5FVt3p",
     },
     docsRepositoryBase: 'https://github.com/tum-gis/rtron-site/',
-    getNextSeoProps() {
+    useNextSeoProps() {
         return {
             titleTemplate: `%s | r:trån`,
         };
