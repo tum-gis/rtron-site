@@ -11,7 +11,7 @@ const config: DocsThemeConfig = {
     chat: {
         link: "https://discord.gg/7w2G5FVt3p",
     },
-    docsRepositoryBase: 'https://github.com/tum-gis/rtron-site/',
+    docsRepositoryBase: 'https://github.com/tum-gis/rtron-site/blob/main',
     useNextSeoProps() {
         return {
             titleTemplate: `%s | r:trån`,
