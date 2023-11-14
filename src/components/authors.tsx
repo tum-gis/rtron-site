@@ -27,7 +27,7 @@ export function Author(props: AuthorProps) {
           target="_blank"
           className="mx-1 text-gray-800 dark:text-gray-100"
       >
-        {props.name}
+        {props.name as string}
       </a>
     </span>
     );
