@@ -27,7 +27,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Build site
-        run: pnpm build && pnpm export
+        run: pnpm build
       - name: Deploy to netlify
         uses: netlify/actions/cli@master
         env:

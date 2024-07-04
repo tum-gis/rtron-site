@@ -8,6 +8,7 @@ const withNextra = require('nextra')({
 })
 
 module.exports = withNextra({
+  output: "export",
   reactStrictMode: true,
   images: {
     unoptimized: true
