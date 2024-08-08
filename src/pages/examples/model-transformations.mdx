@@ -13,13 +13,12 @@ This workbench reads a transformed OpenDRIVE dataset and creates:
 * a FBX file in a local coordinate system
 * and a DWG file for AutoCAD containing only the center lines of the lanes
 
-FME supports a [magnitude of formats](https://docs.safe.com/fme/html/FME_Desktop_Documentation/FME_ReadersWriters/Format-List-All.htm) including glTF, OBJ and Unreal Datasmith.
+FME supports a [magnitude of formats](https://docs.safe.com/fme/html/FME_Desktop_Documentation/FME_ReadersWriters/Format-List-All.htm), including glTF, OBJ, and Unreal Datasmith.
 Moreover, FME provides a [variety of transformers](https://www.safe.com/transformers/) that can be combined to realize feature manipulation tasks.
 
 import { Callout } from 'nextra-theme-docs'
 
 <Callout>
-    FME's [CityGML reader](https://docs.safe.com/fme/html/FME_Desktop_Documentation/FME_ReadersWriters/citygml/citygml.htm) currently only supports CityGML v2.0 directly, whereas a CityGML v3.0 dataset can be read using the generic [GML reader](https://docs.safe.com/fme/html/FME_Desktop_Documentation/FME_ReadersWriters/gml/gml.htm) when the CityGML schema files are provided.
     R:trån automatically outputs a CityGML v3.0 dataset; for CityGML v2.0, just add `--convert-to-citygml2` as CLI argument.
 </Callout>
 
