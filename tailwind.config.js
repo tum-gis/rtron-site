@@ -1,6 +1,4 @@
-import type { Config } from "tailwindcss";
-
-const config: Config = {
+module.exports = {
     mode: "jit",
     content: [
         "./src/components/**/*.js",
@@ -8,5 +6,3 @@ const config: Config = {
         "./src/theme.config.tsx",
     ],
 };
-
-export default config;
