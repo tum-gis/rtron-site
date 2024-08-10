@@ -1,4 +1,4 @@
-import "../styles.css";
+import "../style.css";
 import "nextra-theme-docs/style.css";
 import "@fontsource/open-sans/latin-300.css";
 
