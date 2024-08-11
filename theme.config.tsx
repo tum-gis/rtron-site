@@ -1,7 +1,7 @@
 import type {DocsThemeConfig} from 'nextra-theme-docs'
 import {useConfig} from 'nextra-theme-docs'
-import TumLogo from './components/logos/TUM'
-import SavenowLogo from './components/logos/SAVeNoW'
+import TumLogo from './components/logos/tum'
+import SavenowLogo from './components/logos/savenow'
 import RtronSmallLogo from "./components/logos/rtron-small";
 
 const config: DocsThemeConfig = {
