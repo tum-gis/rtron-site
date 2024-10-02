@@ -12,13 +12,8 @@ const config: DocsThemeConfig = {
         link: "https://discord.gg/7w2G5FVt3p",
     },
     docsRepositoryBase: 'https://github.com/tum-gis/rtron-site/blob/main',
-    useNextSeoProps() {
-        return {
-            titleTemplate: `%s | r:trån`,
-        };
-    },
     editLink: {
-        text: 'Edit this page on GitHub'
+        content: 'Edit this page on GitHub'
     },
     feedback: {
         content: "Question? Give us feedback →",
@@ -37,8 +32,7 @@ const config: DocsThemeConfig = {
         </>
     ),
     footer: {
-        text() {
-            return (
+        content: (
                 <>
                 <a
                     href="https://github.com/tum-gis"
@@ -62,8 +56,7 @@ const config: DocsThemeConfig = {
                     </span>
                 </a>
                 </>
-            );
-        },
+            )
     },
 };
 

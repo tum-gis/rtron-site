@@ -1,4 +1,4 @@
-{
+export default {
   "index": {
     "title": "Introduction",
     "type": "page",
@@ -17,12 +17,5 @@
     "href": "https://api.rtron.io",
     "type": "page",
     "newWindow": true
-  },
-  "blog": {
-    "title": "Blog",
-    "type": "page",
-    "theme": {
-      "sidebar": false
-    }
   }
 }
