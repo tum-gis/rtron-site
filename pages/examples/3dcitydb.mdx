@@ -1,6 +1,4 @@
----
-title: 3D City Database
----
+import {Callout, Tabs} from 'nextra/components'
 
 # 3D City Database
 
@@ -12,58 +10,98 @@ It can be deployed on top of the relational database [PostgreSQL](https://www.po
 
 ## Deployment
 
-Start the 3D City Database with a [docker container](https://github.com/tum-gis/3dcitydb-docker-postgis) by running this command:
+Start the 3D City Database with a [Docker container](https://github.com/tum-gis/3dcitydb-docker-postgis) by running this command:
+
+<Tabs items={['Unix', 'Windows PowerShell']}>
+  <Tabs.Tab>
 ```bash copy
-docker run -dit --name citydb-container -p 5432:5432 \
-    -e "POSTGRES_USER=postgres" \
-    -e "POSTGRES_PASSWORD=changeit" \
-    -e "CITYDBNAME=citydb" \
-    -e "SRID=32632" \
-    -e "SRSNAME=urn:ogc:def:crs:EPSG::32632" \
-tumgis/3dcitydb-postgis
+docker run --name citydb -p 5432:5432 -d \
+    -e SRID=25832 \
+    -e SRS_NAME="urn:adv:crs:ETRS89_UTM32*DE_DHHN2016_NH" \
+    -e POSTGRES_DB=citydb \
+    -e POSTGRES_USER=postgres \
+    -e POSTGRES_PASSWORD=changeMe \
+    -e POSTGIS_SFCGAL=true \
+  3dcitydb/3dcitydb-pg-v5:5.0.0-beta.3
 ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```bash copy
+docker run --name citydb -p 5432:5432 -d `
+    -e SRID=25832 `
+    -e SRS_NAME="urn:adv:crs:ETRS89_UTM32*DE_DHHN2016_NH" `
+    -e POSTGRES_DB=citydb `
+    -e POSTGRES_USER=postgres `
+    -e POSTGRES_PASSWORD=changeMe `
+    -e POSTGIS_SFCGAL=true `
+  3dcitydb/3dcitydb-pg-v5:5.0.0-beta.3
+```
+  </Tabs.Tab>
+</Tabs>
 
-For a manual database setup checkout the [documentation](https://3dcitydb-docs.readthedocs.io/en/release-v4.2.3/intro/setup-3dcitydb.html#) of the 3D City Database.
+For further details checkout the [documentation](https://3dcitydb.github.io/3dcitydb-mkdocs/) of the 3D City Database.
 
-## Loading Datasets
+## Importing Datasets
 
-Import CityGML datasets into the database with the [Importer/Exporter tool](https://github.com/3dcitydb/importer-exporter).
-Therefore, set up the connection in the database tab and load the generated CityGML datasets into the database using the import tab:
-![3DCityDB Query Answer](/media/demos/3dcitydb-importerexporter-connect.png)
+Import CityGML datasets into the database with the [citydb-tool](https://github.com/3dcitydb/citydb-tool).
+Therefore, replace `<input_data_dir>` with your path to the directory containing your CityGML datasets as well as `<citygml_files>` with the file names and run the following command:
+
+<Tabs items={['Unix', 'Windows PowerShell']}>
+  <Tabs.Tab>
+```bash copy
+docker run --rm --net=host --name citydb-tool \
+    -e CITYDB_HOST=localhost \
+    -e CITYDB_PORT=5432 \
+    -e CITYDB_NAME=citydb \
+    -e CITYDB_USERNAME=postgres \
+    -e CITYDB_PASSWORD=changeMe \
+    -v <input_data_dir>:/data \
+  3dcitydb/citydb-tool:0.11.0-beta import citygml \
+  <citygml_files>
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```bash copy
+docker run --rm --net=host --name citydb-tool `
+    -e CITYDB_HOST=localhost `
+    -e CITYDB_PORT=5432 `
+    -e CITYDB_NAME=citydb `
+    -e CITYDB_USERNAME=postgres `
+    -e CITYDB_PASSWORD=changeMe `
+    -v <input_data_dir>:/data `
+  3dcitydb/citydb-tool:0.11.0-beta import citygml `
+  <citygml_files>
+```
+  </Tabs.Tab>
+</Tabs>
 
 ## Geospatial Analytics
 
-Perform geospatial analysis on multiple transformed OpenDRIVE datasets.
-For example, list all priority road signs ``(roadSignal_type = '306')`` sorted by distance to the ``POINT(678195.44 54 414.94)'::geometry)`` across multiple OpenDRIVE datasets:
+For example, list all road signs of [type 283](https://en.wikipedia.org/wiki/Road_signs_in_Germany#Regulatory_signs) sorted by distance to the ``POINT(678195.44 5403954.95 414.94)'::geometry)``:
+
 ```sql copy
 SELECT
-      cog0.strval as identifier_sourceFileName,
-      cog1.strval as identifier_roadObjectId,
-      cog2.strval as identifier_roadObjectName,
-      cog3.strval as opendrive_roadSignal_type,
-      ST_Distance(city_furniture.lod2_implicit_ref_point, 'SRID=32632;POINT(678195.4482485768 5403954.957612606 414.94568122784835)'::geometry) as distance
-FROM
-     city_furniture
-INNER JOIN cityobject_genericattrib cog0 ON cog0.cityobject_id = city_furniture.id AND cog0.attrname = 'identifier_sourceFileName'
-INNER JOIN cityobject_genericattrib cog1 ON cog1.cityobject_id = city_furniture.id AND cog1.attrname = 'identifier_roadObjectId'
-INNER JOIN cityobject_genericattrib cog2 ON cog2.cityobject_id = city_furniture.id AND cog2.attrname = 'identifier_roadObjectName'
-INNER JOIN cityobject_genericattrib cog3 ON cog3.cityobject_id = city_furniture.id AND cog3.attrname = 'opendrive_roadSignal_type'
-WHERE cog3.strval = '306'
+    f.objectid AS objectid,
+    pn.val_string AS name,
+    ps.val_string AS subtype,
+    ST_3DDistance(g.geometry, 'SRID=25832;POINT(678195.44 5403954.95 414.94)'::geometry) as distance
+FROM citydb.feature f
+JOIN objectclass o ON f.objectclass_id = o.id
+JOIN geometry_data g ON f.id = g.feature_id
+LEFT JOIN (SELECT * FROM property WHERE property.name = 'name') AS pn ON f.id = pn.feature_id
+LEFT JOIN (SELECT * FROM property WHERE property.name = 'opendrive_roadSignal_type') AS pt ON f.id = pt.feature_id
+LEFT JOIN (SELECT * FROM property WHERE property.name = 'opendrive_roadSignal_subtype') AS ps ON f.id = ps.feature_id
+WHERE o.classname = 'CityFurniture' AND pt.val_string = '283'
 ORDER BY
-  city_furniture.lod2_implicit_ref_point <#>
-  'SRID=32632;POINT(678195.4482485768 5403954.957612606 414.94568122784835)'::geometry
+  ST_3DDistance(g.geometry, 'SRID=25832;POINT(678195.44 5403954.95 414.94)'::geometry)
 ```
 
 This is the answer of the 3D City Database:
 ![3DCityDB Query Answer](/media/demos/3dcitydb-query-answer.png)
 
-## Extracting Datasets
-
-Using the [Importer/Exporter tool](https://github.com/3dcitydb/importer-exporter), the 3D city model can be exported as CityGML and KML/COLLADA/glTF datasets:
-![3DCityDB Query Answer](/media/demos/3dcitydb-importerexporter-export.png)
 
 ## References
 
 - [GitHub repository](https://github.com/3dcitydb/3dcitydb) of the 3D City Database
-- [Documentation](https://3dcitydb-docs.readthedocs.io) of the 3D City Database
+- [Documentation](https://3dcitydb.github.io/3dcitydb-mkdocs/) of the 3D City Database
 - Yao, Zhihang; Nagel, Claus; Kunde, Felix; Hudra, György; Willkomm, Philipp; Donaubauer, Andreas; Adolphi, Thomas; Kolbe, Thomas H.: [3DCityDB - a 3D geodatabase solution for the management, analysis, and visualization of semantic 3D city models based on CityGML](https://doi.org/10.1186/s40965-018-0046-7). Open Geospatial Data, Software and Standards 3 (5), 2018, 1-26.
