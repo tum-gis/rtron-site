@@ -13,7 +13,7 @@ It can be deployed on top of the relational database [PostgreSQL](https://www.po
 ## Deployment
 
 Start the 3D City Database with a [docker container](https://github.com/tum-gis/3dcitydb-docker-postgis) by running this command:
-```bash
+```bash copy
 docker run -dit --name citydb-container -p 5432:5432 \
     -e "POSTGRES_USER=postgres" \
     -e "POSTGRES_PASSWORD=changeit" \
@@ -35,7 +35,7 @@ Therefore, set up the connection in the database tab and load the generated City
 
 Perform geospatial analysis on multiple transformed OpenDRIVE datasets.
 For example, list all priority road signs ``(roadSignal_type = '306')`` sorted by distance to the ``POINT(678195.44 54 414.94)'::geometry)`` across multiple OpenDRIVE datasets:
-```sql
+```sql copy
 SELECT
       cog0.strval as identifier_sourceFileName,
       cog1.strval as identifier_roadObjectId,
