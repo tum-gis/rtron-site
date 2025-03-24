@@ -22,7 +22,7 @@ docker run --name citydb -p 5432:5432 -d \
     -e POSTGRES_USER=postgres \
     -e POSTGRES_PASSWORD=changeMe \
     -e POSTGIS_SFCGAL=true \
-  3dcitydb/3dcitydb-pg-v5:5.0.0-beta.3
+  3dcitydb/3dcitydb-pg
 ```
   </Tabs.Tab>
   <Tabs.Tab>
@@ -34,7 +34,7 @@ docker run --name citydb -p 5432:5432 -d `
     -e POSTGRES_USER=postgres `
     -e POSTGRES_PASSWORD=changeMe `
     -e POSTGIS_SFCGAL=true `
-  3dcitydb/3dcitydb-pg-v5:5.0.0-beta.3
+  3dcitydb/3dcitydb-pg
 ```
   </Tabs.Tab>
 </Tabs>
@@ -56,7 +56,7 @@ docker run --rm --net=host --name citydb-tool \
     -e CITYDB_USERNAME=postgres \
     -e CITYDB_PASSWORD=changeMe \
     -v <input_data_dir>:/data \
-  3dcitydb/citydb-tool:0.11.0-beta import citygml \
+  3dcitydb/citydb-tool import citygml \
   <citygml_files>
 ```
   </Tabs.Tab>
@@ -69,7 +69,7 @@ docker run --rm --net=host --name citydb-tool `
     -e CITYDB_USERNAME=postgres `
     -e CITYDB_PASSWORD=changeMe `
     -v <input_data_dir>:/data `
-  3dcitydb/citydb-tool:0.11.0-beta import citygml `
+  3dcitydb/citydb-tool import citygml `
   <citygml_files>
 ```
   </Tabs.Tab>
