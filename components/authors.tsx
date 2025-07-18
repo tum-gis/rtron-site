@@ -1,11 +1,10 @@
-import React, {Key} from 'react';
+import React from 'react';
+import type { Key } from 'react';
 
-interface AuthorsProps {
+export default function Authors(props: {
+    children?: React.ReactNode,
     date: String,
-    children: React.ReactNode
-}
-
-export default function Authors(props: AuthorsProps) {
+}) {
     return (
         <div className="mt-8 mb-16 text-gray-400 text-sm">
             {props.date} by {props.children}

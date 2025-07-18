@@ -3,7 +3,7 @@ import Document, { Html, Head, Main, NextScript } from 'next/document'
 import { SkipNavLink } from '@reach/skip-nav'
 
 class MyDocument extends Document {
-    render() {
+    override render() {
         return (
             <Html lang="en">
                 <Head />
