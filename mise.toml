@@ -1,0 +1,30 @@
+[tasks.default]
+run = [
+    'mise run init-build-environment',
+    'mise run lint',
+    'mise run build'
+]
+
+[tasks.init-build-environment]
+description = "Setup the build environment"
+run = "pnpm install"
+
+[tasks.lint]
+description = "Format and lint the project"
+run = '''
+pnpm lint
+pnpm install
+'''
+
+[tasks.build]
+description = "Compile the project"
+run = "pnpm build"
+
+[tasks.clean]
+description = "Remove generated artifacts"
+run = '''
+pnpm clean
+if [ '{{flag(name='complete')}}' = 'true' ]; then
+  rm ./pnpm-lock.yaml;
+fi
+'''
